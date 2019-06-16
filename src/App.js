@@ -33,6 +33,7 @@ class App extends React.Component {
   state = {
     board: EMPTY_BOARD,
     turn: true,
+    turnPrevious: true,
     disableFields: ENABLED_FIELD_LIST,
     turnNumber: 0,
     PlayerX: 0,
@@ -40,28 +41,31 @@ class App extends React.Component {
     Draw: 0
   };
 
-  isGameEnd = () => {
-    let i = 0;
-    // console.log("zbroj", N - N);
-    // console.log("zbroj", N - (N - 1));
-    // console.log("zbroj", N - (N - 1));
-    if (
-      this.state.board[i] === "X" &&
-      this.state.board[i + 1] === "X" &&
-      this.state.board[i + 2] === "X"
-    ) {
-      return 0;
+  isGameEnd = fieldChar => {
+    console.log("CALLL for", fieldChar);
+    let targetField = [];
+    let fieldChecker = 0;
+    for (let i = 0; i < N; i++) {
+      targetField[i] = fieldChar;
     }
-    if (
-      this.state.board[i] === "O" &&
-      this.state.board[i + 1] === "O" &&
-      this.state.board[i + 2] === "O"
-    ) {
-      return 1;
+    //CHECK ROWS
+    //CHECK 1.ROW
+    for (let i = N - N; i < N; i++) {
+      if (this.state.board[i] === targetField[i]) {
+        fieldChecker++;
+      }
     }
-    if (this.state.turnNumber === 9) {
-      return 2;
+    if (fieldChecker === N) {
+      console.log(fieldChar, ": is winner");
+      if (fieldChar === "X") {
+        return 0;
+      }
+      if (fieldChar === "O") {
+        return 1;
+      }
     }
+
+    //CHECK 2.ROW
   };
 
   onFieldClick = e => {
@@ -96,24 +100,34 @@ class App extends React.Component {
           disableFields,
           board,
           turn,
+          turnPrevious: !this.state.turn,
           turnNumber: this.state.turnNumber + 1
         };
       },
+
       () => {
-        if (this.isGameEnd() === 0) {
-          console.log("PLAYER X WINNER !!");
-          this.setState({
-            disableFields: DISABLED_FIELD_LIST,
-            PlayerX: this.state.PlayerX + 1
-          });
+        if (this.state.turnPrevious === false) {
+          if (this.isGameEnd("X") === 0) {
+            console.log("PLAYER X WINNER !!");
+            this.setState({
+              turn: true,
+              disableFields: DISABLED_FIELD_LIST,
+              PlayerX: this.state.PlayerX + 1
+            });
+          }
         }
-        if (this.isGameEnd() === 1) {
-          console.log("PLAYER O WINNER !!");
-          this.setState({
-            disableFields: DISABLED_FIELD_LIST,
-            PlayerO: this.state.PlayerO + 1
-          });
-        } else if (this.isGameEnd() === 2) {
+
+        if (this.state.turnPrevious === true) {
+          if (this.isGameEnd("O") === 1) {
+            console.log("PLAYER O WINNER !!");
+            this.setState({
+              turn: false,
+              disableFields: DISABLED_FIELD_LIST,
+              PlayerO: this.state.PlayerO + 1
+            });
+          }
+        }
+        if (this.state.turnNumber === 9) {
           console.log("DRAW !!");
           this.setState({
             disableFields: DISABLED_FIELD_LIST,
@@ -133,6 +147,7 @@ class App extends React.Component {
   };
 
   render() {
+    //console.log("turn number", this.state.turnNumber);
     return (
       <div className="App">
         <Header />
