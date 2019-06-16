@@ -3,14 +3,24 @@ import "./App.css";
 import Header from "./components/Header";
 import TicTacToe from "./components/TicTacToe";
 
-const EMPTY_BOARD = ["0", "1", "2", "3", "4", "5", "6", "7", "8"];
-//const DISABLE_FIELD_LIST = [ false, false ,false ]
+const EMPTY_BOARD = ["", "", "", "", "", "", "", "", ""];
+const DISABLE_FIELD_LIST = [
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false
+];
 
 class App extends React.Component {
   state = {
     board: EMPTY_BOARD,
-    turn: true
-    //  fieldLocker:
+    turn: true,
+    disableFields: DISABLE_FIELD_LIST
   };
 
   onFieldClick = e => {
@@ -33,19 +43,37 @@ class App extends React.Component {
         counter++;
         return field;
       });
-      return {
-        board,
-        turn
-      };
+      counter = 0;
+      const disableFields = state.disableFields.map(field => {
+        if (id == counter) {
+          field = true;
+        }
+        counter++;
+        return field;
+      });
+
+      return { disableFields, board, turn };
+    });
+  };
+
+  onRestartClick = () => {
+    this.setState({
+      board: EMPTY_BOARD,
+      disableFields: DISABLE_FIELD_LIST
     });
   };
 
   render() {
-    console.log(this.state.turn);
+    console.log(this.state.disableFields);
     return (
       <div className="App">
         <Header />
-        <TicTacToe onFieldClick={this.onFieldClick} board={this.state.board} />
+        <TicTacToe
+          onRestartClick={this.onRestartClick}
+          disableFields={this.state.disableFields}
+          onFieldClick={this.onFieldClick}
+          board={this.state.board}
+        />
       </div>
     );
   }
