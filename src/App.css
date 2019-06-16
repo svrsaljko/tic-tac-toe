@@ -1,19 +1,36 @@
+.Field {
+  border: 4px solid black;
+  border-radius: 3px;
+  font-size: 20px;
+}
+
 .Board {
+  margin-top: 2rem;
+  border-radius: 5px;
+  border: 3px solid black;
+  width: 17rem;
+  height: 17rem;
+
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+}
+
+.ResetButton {
 }
 
 .BoardAndResetContainer {
   display: flex;
   flex-direction: column;
-  border: 3px solid red;
 }
 
 .PLayerContainer {
   border: 3px solid brown;
+  display: flex;
+  flex-direction: column;
 }
 
 .TicTacToe {
+  margin-top: 5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
