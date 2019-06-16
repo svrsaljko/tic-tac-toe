@@ -24,7 +24,6 @@
 }
 
 .PLayerContainer {
-  border: 3px solid brown;
   display: flex;
   flex-direction: column;
 }
