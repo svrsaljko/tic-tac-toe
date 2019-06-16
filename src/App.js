@@ -49,55 +49,21 @@ class App extends React.Component {
       targetField[i] = fieldChar;
     }
     //CHECK ROWS
-    //CHECK 1.ROW
     for (let i = N - N; i < N; i++) {
-      if (this.state.board[i] === targetField[i]) {
-        fieldChecker++;
+      fieldChecker = 0;
+      for (let j = i * N; j < N * (i + 1); j++) {
+        if (this.state.board[j] === targetField[j - i * N]) {
+          fieldChecker++;
+        }
       }
-    }
-    if (fieldChecker === N) {
-      console.log(fieldChar, ": is winner");
-      if (fieldChar === "X") {
-        return 0;
-      }
-      if (fieldChar === "O") {
-        return 1;
-      }
-    }
-
-    //CHECK 2.ROW
-    fieldChecker = 0;
-
-    for (let i = N; i < 2 * N; i++) {
-      if (this.state.board[i] === targetField[i - N]) {
-        fieldChecker++;
-      }
-    }
-    if (fieldChecker === N) {
-      console.log(fieldChar, ": is winner");
-      if (fieldChar === "X") {
-        return 0;
-      }
-      if (fieldChar === "O") {
-        return 1;
-      }
-    }
-    //CHECK 3.ROW
-
-    fieldChecker = 0;
-
-    for (let i = 2 * N; i < 3 * N; i++) {
-      if (this.state.board[i] === targetField[i - 2 * N]) {
-        fieldChecker++;
-      }
-    }
-    if (fieldChecker === N) {
-      console.log(fieldChar, ": is winner");
-      if (fieldChar === "X") {
-        return 0;
-      }
-      if (fieldChar === "O") {
-        return 1;
+      if (fieldChecker === N) {
+        console.log(fieldChar, ": is winner");
+        if (fieldChar === "X") {
+          return 0;
+        }
+        if (fieldChar === "O") {
+          return 1;
+        }
       }
     }
   };
