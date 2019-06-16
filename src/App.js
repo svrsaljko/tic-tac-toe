@@ -66,6 +66,40 @@ class App extends React.Component {
     }
 
     //CHECK 2.ROW
+    fieldChecker = 0;
+
+    for (let i = N; i < 2 * N; i++) {
+      if (this.state.board[i] === targetField[i - N]) {
+        fieldChecker++;
+      }
+    }
+    if (fieldChecker === N) {
+      console.log(fieldChar, ": is winner");
+      if (fieldChar === "X") {
+        return 0;
+      }
+      if (fieldChar === "O") {
+        return 1;
+      }
+    }
+    //CHECK 3.ROW
+
+    fieldChecker = 0;
+
+    for (let i = 2 * N; i < 3 * N; i++) {
+      if (this.state.board[i] === targetField[i - 2 * N]) {
+        fieldChecker++;
+      }
+    }
+    if (fieldChecker === N) {
+      console.log(fieldChar, ": is winner");
+      if (fieldChar === "X") {
+        return 0;
+      }
+      if (fieldChar === "O") {
+        return 1;
+      }
+    }
   };
 
   onFieldClick = e => {
