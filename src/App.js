@@ -43,16 +43,13 @@ class App extends React.Component {
 
   isGameEnd = fieldChar => {
     console.log("CALLL for", fieldChar);
-    let targetField = [];
     let fieldChecker = 0;
-    for (let i = 0; i < N; i++) {
-      targetField[i] = fieldChar;
-    }
+
     //CHECK ROWS
     for (let i = N - N; i < N; i++) {
       fieldChecker = 0;
       for (let j = i * N; j < N * (i + 1); j++) {
-        if (this.state.board[j] === targetField[j - i * N]) {
+        if (this.state.board[j] === fieldChar /*targetField[j - i * N]*/) {
           fieldChecker++;
         }
       }
@@ -64,6 +61,23 @@ class App extends React.Component {
         if (fieldChar === "O") {
           return 1;
         }
+      }
+    }
+    //CHECK COLUMNS
+    //1.COLUMN
+    fieldChecker = 0;
+    for (let i = N - N; i <= (N - 1) * N; i = i + N) {
+      if (this.state.board[i] === fieldChar) {
+        fieldChecker++;
+      }
+    }
+    if (fieldChecker === N) {
+      console.log(fieldChar, ": is winner");
+      if (fieldChar === "X") {
+        return 0;
+      }
+      if (fieldChar === "O") {
+        return 1;
       }
     }
   };
