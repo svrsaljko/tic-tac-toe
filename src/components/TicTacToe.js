@@ -4,7 +4,7 @@ export default function TicTacToe(props) {
   //console.log(props);
   return (
     <div className="TicTacToe">
-      <div className="PLayerContainer">Player1 W D</div>
+      <div className="PLayerContainer">Player1 {props.PlayerX} D</div>
       <div className="BoardAndResetContainer">
         <button onClick={props.onRestartClick} className="ResetButton">
           RESET
