@@ -3,8 +3,25 @@ import "./App.css";
 import Header from "./components/Header";
 import TicTacToe from "./components/TicTacToe";
 
-const N = 3;
-const EMPTY_BOARD = ["", "", "", "", "", "", "", "", "", "O", "", "", "X"];
+const N = 4;
+const EMPTY_BOARD = [
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "O",
+  "X",
+  "11",
+  "12",
+  "13",
+  "14",
+  "X"
+];
 const ENABLED_FIELD_LIST = [
   false,
   false,
@@ -85,6 +102,22 @@ class App extends React.Component {
     }
 
     //CHECK DIAGONALS
+    //CHECK 1. DIAGONAL
+    fieldChecker = 0;
+    for (let i = N - N; i < N * N; i = i + N + 1) {
+      if (this.state.board[i] === fieldChar) {
+        fieldChecker++;
+      }
+    }
+    if (fieldChecker === N) {
+      console.log(fieldChar, ": is winner");
+      if (fieldChar === "X") {
+        return 0;
+      }
+      if (fieldChar === "O") {
+        return 1;
+      }
+    }
   };
 
   onFieldClick = e => {
