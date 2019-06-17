@@ -2,8 +2,13 @@ import React from "react";
 import "./App.css";
 import Header from "./components/Header";
 import TicTacToe from "./components/TicTacToe";
+import styled from "styled-components";
 
-const N = 4;
+const AppContainer = styled.div`
+  styled.display: flex;
+  flex-direction: column;
+`;
+const N = 3;
 const EMPTY_BOARD = [
   "",
   "",
@@ -72,13 +77,7 @@ class App extends React.Component {
         }
       }
       if (fieldChecker === N) {
-        console.log(fieldChar, ": is winner");
-        if (fieldChar === "X") {
-          return 0;
-        }
-        if (fieldChar === "O") {
-          return 1;
-        }
+        return this.returnWinner(fieldChar);
       }
     }
 
@@ -91,13 +90,7 @@ class App extends React.Component {
         }
       }
       if (fieldChecker === N) {
-        console.log(fieldChar, ": is winner");
-        if (fieldChar === "X") {
-          return 0;
-        }
-        if (fieldChar === "O") {
-          return 1;
-        }
+        return this.returnWinner(fieldChar);
       }
     }
 
@@ -110,13 +103,7 @@ class App extends React.Component {
       }
     }
     if (fieldChecker === N) {
-      console.log(fieldChar, ": is winner");
-      if (fieldChar === "X") {
-        return 0;
-      }
-      if (fieldChar === "O") {
-        return 1;
-      }
+      return this.returnWinner(fieldChar);
     }
     //CHECK 2. DIAGONAL
     fieldChecker = 0;
@@ -126,13 +113,16 @@ class App extends React.Component {
       }
     }
     if (fieldChecker === N) {
-      console.log(fieldChar, ": is winner");
-      if (fieldChar === "X") {
-        return 0;
-      }
-      if (fieldChar === "O") {
-        return 1;
-      }
+      return this.returnWinner(fieldChar);
+    }
+  };
+
+  returnWinner = fieldChar => {
+    if (fieldChar === "X") {
+      return 0;
+    }
+    if (fieldChar === "O") {
+      return 1;
     }
   };
 
@@ -217,7 +207,7 @@ class App extends React.Component {
   render() {
     //console.log("turn number", this.state.turnNumber);
     return (
-      <div className="App">
+      <AppContainer>
         <Header />
         <TicTacToe
           PlayerX={this.state.PlayerX}
@@ -228,7 +218,7 @@ class App extends React.Component {
           onFieldClick={this.onFieldClick}
           board={this.state.board}
         />
-      </div>
+      </AppContainer>
     );
   }
 }
