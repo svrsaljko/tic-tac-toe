@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import TicTacToe from "./components/TicTacToe";
 
 const N = 3;
-const EMPTY_BOARD = ["", "", "", "", "", "", "", "", ""];
+const EMPTY_BOARD = ["", "", "", "", "", "", "", "", "", "O", "", "", "X"];
 const ENABLED_FIELD_LIST = [
   false,
   false,
@@ -42,14 +42,15 @@ class App extends React.Component {
   };
 
   isGameEnd = fieldChar => {
-    console.log("CALLL for", fieldChar);
-    let fieldChecker = 0;
+    console.log("N =", N);
+
+    let fieldChecker;
 
     //CHECK ROWS
     for (let i = N - N; i < N; i++) {
       fieldChecker = 0;
       for (let j = i * N; j < N * (i + 1); j++) {
-        if (this.state.board[j] === fieldChar /*targetField[j - i * N]*/) {
+        if (this.state.board[j] === fieldChar) {
           fieldChecker++;
         }
       }
@@ -63,23 +64,27 @@ class App extends React.Component {
         }
       }
     }
+
     //CHECK COLUMNS
-    //1.COLUMN
-    fieldChecker = 0;
-    for (let i = N - N; i <= (N - 1) * N; i = i + N) {
-      if (this.state.board[i] === fieldChar) {
-        fieldChecker++;
+    for (let i = N - N; i < N; i++) {
+      fieldChecker = 0;
+      for (let j = i; j < N * N; j = j + N) {
+        if (this.state.board[j] === fieldChar) {
+          fieldChecker++;
+        }
+      }
+      if (fieldChecker === N) {
+        console.log(fieldChar, ": is winner");
+        if (fieldChar === "X") {
+          return 0;
+        }
+        if (fieldChar === "O") {
+          return 1;
+        }
       }
     }
-    if (fieldChecker === N) {
-      console.log(fieldChar, ": is winner");
-      if (fieldChar === "X") {
-        return 0;
-      }
-      if (fieldChar === "O") {
-        return 1;
-      }
-    }
+
+    //CHECK DIAGONALS
   };
 
   onFieldClick = e => {
