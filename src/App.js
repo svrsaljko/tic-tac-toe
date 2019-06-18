@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import Header from "./components/Header";
 import TicTacToe from "./components/TicTacToe";
 import styled from "styled-components";
@@ -9,8 +8,9 @@ const AppContainer = styled.div`
   flex-direction: column;
 `;
 
-const winnerFieldPainter = [];
 const N = 3;
+const winnerFieldPainter = [];
+
 const EMPTY_BOARD = [
   "",
   "",
@@ -55,6 +55,7 @@ const DISABLED_FIELD_LIST = [
 
 class App extends React.Component {
   state = {
+    message: "PlayerX on turn...",
     board: EMPTY_BOARD,
     turn: true,
     turnPrevious: true,
@@ -142,6 +143,13 @@ class App extends React.Component {
   };
 
   onFieldClick = e => {
+    //FOR DRAW CHECK
+    let isDraw = false;
+    let isXWinner = false;
+    let isOWinner = false;
+    let message = "";
+    winnerFieldPainter[0] = false;
+
     const id = e.target.id;
     let counter = 0;
     let turn;
@@ -151,9 +159,11 @@ class App extends React.Component {
           if (id == counter) {
             if (state.turn === true) {
               field = "X";
+              message = "PlayerO on turn...";
               turn = false;
             } else {
               field = "O";
+              message = "PlayerX on turn...";
               turn = true;
             }
           }
@@ -170,6 +180,7 @@ class App extends React.Component {
           return field;
         });
         return {
+          message: message,
           disableFields,
           board,
           turn,
@@ -181,7 +192,8 @@ class App extends React.Component {
       () => {
         if (this.state.turnPrevious === false) {
           if (this.isGameEnd("X") === 0) {
-            console.log("PLAYER X WINNER !!");
+            isXWinner = true;
+            //console.log("PLAYER X WIN!!");
             this.setState(state => {
               let fieldIndex = 0;
               const winnerFieldList = state.winnerFieldList.map(field => {
@@ -195,18 +207,21 @@ class App extends React.Component {
               });
               return {
                 winnerFieldList,
+                message: "PlayerX WINS!!",
                 gameEnd: true,
                 turn: true,
                 disableFields: DISABLED_FIELD_LIST,
                 PlayerX: this.state.PlayerX + 1
               };
             });
+          } else if (this.state.turnNumber === 9 && isOWinner === false) {
+            isDraw = true;
           }
         }
-
         if (this.state.turnPrevious === true) {
           if (this.isGameEnd("O") === 1) {
-            console.log("PLAYER O WINNER !!");
+            isOWinner = true;
+            //console.log("PLAYER O WINNER !!");
             this.setState(state => {
               let fieldIndex = 0;
               const winnerFieldList = state.winnerFieldList.map(field => {
@@ -220,17 +235,21 @@ class App extends React.Component {
               });
               return {
                 winnerFieldList,
+                message: "PlayerO WINS!!",
                 gameEnd: true,
-                turn: true,
+                turn: false,
                 disableFields: DISABLED_FIELD_LIST,
                 PlayerO: this.state.PlayerO + 1
               };
             });
+          } else if (this.state.turnNumber === 9 && isXWinner === false) {
+            isDraw = true;
           }
         }
-        if (this.state.turnNumber === 9) {
+        if (isDraw === true) {
           console.log("DRAW !!");
           this.setState({
+            message: "DRAW!!",
             gameEnd: true,
             disableFields: DISABLED_FIELD_LIST,
             Draw: this.state.Draw + 1
@@ -241,7 +260,14 @@ class App extends React.Component {
   };
 
   onRestartClick = () => {
+    let message = "";
+    if (this.state.turn === true) {
+      message = "PlayerX on turn...";
+    } else {
+      message = "PlayerO on turn...";
+    }
     this.setState({
+      message,
       gameEnd: false,
       board: EMPTY_BOARD,
       disableFields: ENABLED_FIELD_LIST,
@@ -257,6 +283,7 @@ class App extends React.Component {
       <AppContainer>
         <Header />
         <TicTacToe
+          message={this.state.message}
           PlayerX={this.state.PlayerX}
           PlayerO={this.state.PlayerO}
           Draw={this.state.Draw}
@@ -266,6 +293,7 @@ class App extends React.Component {
           board={this.state.board}
           gameEnd={this.state.gameEnd}
           winnerFieldList={this.state.winnerFieldList}
+          turn={this.state.turn}
         />
       </AppContainer>
     );

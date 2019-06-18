@@ -13,32 +13,27 @@ const MessageAndResetButtonContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
 
-  border: 3px solid red;
-`;
-
-const Message = styled.h3`
-  color: red;
-  border: 3px solid green;
-  text-align: center;
+  // border: 3px solid red;
 `;
 
 const PLayerContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  border: 3px solid brown;
+  //border: 3px solid brown;
 `;
 
 const BoardAndPlayerContainer = styled.div`
+  margin-top: 3rem;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  border: 3px solid black;
+  //border: 3px solid black;
 `;
 
 const Board = styled.div`
   border-radius: 5px;
-  border: 3px solid black;
+  border: 3px solid #21242c;
   width: 17rem;
   height: 17rem;
 
@@ -46,33 +41,50 @@ const Board = styled.div`
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 `;
 
-function TicTacToe(props) {
-  console.log(props.winnerFieldList);
+const Statistics = styled.h3`
+  color: white;
+`;
 
+function TicTacToe(props) {
+  // console.log(props.winnerFieldList);
+  const Field = styled.button`
+    border: 5px solid #21242c;
+    background-color: #282c34;
+    font-size: 30px;
+    cursor: pointer;
+  `;
   const ResetButton = styled.button`
-    border: 3px solid yellow;
+    //border: 3px solid yellow;
     width: fit-content;
     align-self: center;
-    visibility: ${props.gameEnd ? "visible" : "hidden"};
+    visibility: ${props.gameEnd ? "visible" : "visible"};
   `;
 
-  const Field = styled.button`
-    border: 4px solid black;
-    border-radius: 3px;
-    font-size: 20px;
+  const Message = styled.h3`
+    color: #75fff1;
+    //border: 3px solid green;
+    text-align: center;
+    visibility: ${props.gameEnd ? "visible" : "visible"};
+  `;
+
+  const PlayerX = styled.h2`
+    color: ${props.turn ? " #75fff1" : "white"};
+  `;
+  const PlayerO = styled.h2`
+    color: ${props.turn ? "white" : " #75fff1"};
   `;
 
   return (
     <TicTacToeContainer>
       <MessageAndResetButtonContainer>
-        <Message> Player1 winner </Message>
+        <Message>{props.message}</Message>
         <ResetButton onClick={props.onRestartClick}>RESET</ResetButton>
       </MessageAndResetButtonContainer>
       <BoardAndPlayerContainer>
         <PLayerContainer>
-          <h3>PlayerX</h3>
-          <h4>W: {props.PlayerX}</h4>
-          <h4>D: {props.Draw}</h4>
+          <PlayerX>PlayerX</PlayerX>
+          <Statistics>W: {props.PlayerX}</Statistics>
+          <Statistics>D: {props.Draw}</Statistics>
         </PLayerContainer>
         <Board>
           {Fields.map(field => {
@@ -83,7 +95,7 @@ function TicTacToe(props) {
                 disabled={props.disableFields[field]}
                 onClick={props.onFieldClick}
                 style={{
-                  color: props.winnerFieldList[field] ? "yellow" : "black"
+                  color: props.winnerFieldList[field] ? " #75fff1" : "white"
                 }}
               >
                 {props.board[field]}
@@ -92,9 +104,9 @@ function TicTacToe(props) {
           })}
         </Board>
         <PLayerContainer>
-          <h3>PlayerO</h3>
-          <h4>W: {props.PlayerO}</h4>
-          <h4>D: {props.Draw}</h4>
+          <PlayerO>PlayerO</PlayerO>
+          <Statistics>W: {props.PlayerO}</Statistics>
+          <Statistics>D: {props.Draw}</Statistics>
         </PLayerContainer>
       </BoardAndPlayerContainer>
     </TicTacToeContainer>
