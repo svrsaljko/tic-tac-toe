@@ -8,6 +8,8 @@ const AppContainer = styled.div`
   styled.display: flex;
   flex-direction: column;
 `;
+
+const winnerFieldPainter = [];
 const N = 3;
 const EMPTY_BOARD = [
   "",
@@ -60,11 +62,13 @@ class App extends React.Component {
     turnNumber: 0,
     PlayerX: 0,
     PlayerO: 0,
-    Draw: 0
+    Draw: 0,
+    gameEnd: false,
+    winnerFieldList: ENABLED_FIELD_LIST
   };
 
   isGameEnd = fieldChar => {
-    console.log("N =", N);
+    //console.log("N =", N);
 
     let fieldChecker;
 
@@ -73,7 +77,9 @@ class App extends React.Component {
       fieldChecker = 0;
       for (let j = i * N; j < N * (i + 1); j++) {
         if (this.state.board[j] === fieldChar) {
+          //console.log("i: ", i, "j: ", j);
           fieldChecker++;
+          winnerFieldPainter[fieldChecker - 1] = j;
         }
       }
       if (fieldChecker === N) {
@@ -87,9 +93,12 @@ class App extends React.Component {
       for (let j = i; j < N * N; j = j + N) {
         if (this.state.board[j] === fieldChar) {
           fieldChecker++;
+          winnerFieldPainter[fieldChecker - 1] = j;
         }
       }
       if (fieldChecker === N) {
+        // console.log("tuu");
+        // console.log("paint winner", winnerFieldPainter);
         return this.returnWinner(fieldChar);
       }
     }
@@ -100,9 +109,12 @@ class App extends React.Component {
     for (let i = N - N; i < N * N; i = i + N + 1) {
       if (this.state.board[i] === fieldChar) {
         fieldChecker++;
+        winnerFieldPainter[fieldChecker - 1] = i;
       }
     }
     if (fieldChecker === N) {
+      // console.log("tuu");
+      // console.log("paint winner", winnerFieldPainter);
       return this.returnWinner(fieldChar);
     }
     //CHECK 2. DIAGONAL
@@ -110,9 +122,12 @@ class App extends React.Component {
     for (let i = N - 1; i <= (N - 1) * N; i = i + N - 1) {
       if (this.state.board[i] === fieldChar) {
         fieldChecker++;
+        winnerFieldPainter[fieldChecker - 1] = i;
       }
     }
     if (fieldChecker === N) {
+      // console.log("tuu");
+      // console.log("paint winner", winnerFieldPainter);
       return this.returnWinner(fieldChar);
     }
   };
@@ -167,10 +182,24 @@ class App extends React.Component {
         if (this.state.turnPrevious === false) {
           if (this.isGameEnd("X") === 0) {
             console.log("PLAYER X WINNER !!");
-            this.setState({
-              turn: true,
-              disableFields: DISABLED_FIELD_LIST,
-              PlayerX: this.state.PlayerX + 1
+            this.setState(state => {
+              let fieldIndex = 0;
+              const winnerFieldList = state.winnerFieldList.map(field => {
+                for (let i = 0; i < N; i++) {
+                  if (winnerFieldPainter[i] === fieldIndex) {
+                    field = true;
+                  }
+                }
+                fieldIndex++;
+                return field;
+              });
+              return {
+                winnerFieldList,
+                gameEnd: true,
+                turn: true,
+                disableFields: DISABLED_FIELD_LIST,
+                PlayerX: this.state.PlayerX + 1
+              };
             });
           }
         }
@@ -178,16 +207,31 @@ class App extends React.Component {
         if (this.state.turnPrevious === true) {
           if (this.isGameEnd("O") === 1) {
             console.log("PLAYER O WINNER !!");
-            this.setState({
-              turn: false,
-              disableFields: DISABLED_FIELD_LIST,
-              PlayerO: this.state.PlayerO + 1
+            this.setState(state => {
+              let fieldIndex = 0;
+              const winnerFieldList = state.winnerFieldList.map(field => {
+                for (let i = 0; i < N; i++) {
+                  if (winnerFieldPainter[i] === fieldIndex) {
+                    field = true;
+                  }
+                }
+                fieldIndex++;
+                return field;
+              });
+              return {
+                winnerFieldList,
+                gameEnd: true,
+                turn: true,
+                disableFields: DISABLED_FIELD_LIST,
+                PlayerO: this.state.PlayerO + 1
+              };
             });
           }
         }
         if (this.state.turnNumber === 9) {
           console.log("DRAW !!");
           this.setState({
+            gameEnd: true,
             disableFields: DISABLED_FIELD_LIST,
             Draw: this.state.Draw + 1
           });
@@ -198,14 +242,17 @@ class App extends React.Component {
 
   onRestartClick = () => {
     this.setState({
+      gameEnd: false,
       board: EMPTY_BOARD,
       disableFields: ENABLED_FIELD_LIST,
-      turnNumber: 0
+      turnNumber: 0,
+      winnerFieldList: ENABLED_FIELD_LIST
     });
   };
 
   render() {
-    //console.log("turn number", this.state.turnNumber);
+    //console.log("winner painter: ", winnerFieldPainter);
+    //console.log("WINNER FIELD LIST :", this.state.winnerFieldList);
     return (
       <AppContainer>
         <Header />
@@ -217,6 +264,8 @@ class App extends React.Component {
           disableFields={this.state.disableFields}
           onFieldClick={this.onFieldClick}
           board={this.state.board}
+          gameEnd={this.state.gameEnd}
+          winnerFieldList={this.state.winnerFieldList}
         />
       </AppContainer>
     );
