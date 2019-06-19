@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { N } from "../App.js";
 
-const Fields = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+const Fields = [];
 
 const TicTacToeContainer = styled.div`
   display: flex;
@@ -25,20 +26,23 @@ const BoardAndPlayerContainer = styled.div`
   justify-content: space-around;
 `;
 
-const Board = styled.div`
-  border-radius: 5px;
-  border: 3px solid #21242c;
-  width: 17rem;
-  height: 17rem;
-  display: grid;
-  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-`;
-
 const Statistics = styled.h3`
   color: white;
 `;
 
 function TicTacToe(props) {
+  for (let i = 0; i < N * N; i++) {
+    Fields[i] = i;
+  }
+  const Board = styled.div`
+    border-radius: 5px;
+    border: 3px solid #21242c;
+    width: 17rem;
+    height: 17rem;
+    display: grid;
+    grid-template: repeat(${N}, 1fr) / repeat(${N}, 1fr);
+  `;
+
   const Field = styled.button`
     border: 5px solid #21242c;
     background-color: #282c34;

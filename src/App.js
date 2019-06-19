@@ -4,31 +4,12 @@ import TicTacToe from "./components/TicTacToe";
 import Footer from "./components/Footer";
 import styled from "styled-components";
 
-const N = 3;
+export const N = 4;
 const winnerFieldPainter = [];
-const EMPTY_BOARD = ["", "", "", "", "", "", "", "", ""];
-const ENABLED_FIELD_LIST = [
-  false,
-  false,
-  false,
-  false,
-  false,
-  false,
-  false,
-  false,
-  false
-];
-const DISABLED_FIELD_LIST = [
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true
-];
+
+const EMPTY_BOARD = [];
+const ENABLED_FIELD_LIST = [];
+const DISABLED_FIELD_LIST = [];
 
 const AppContainer = styled.div`
   styled.display: flex;
@@ -36,6 +17,14 @@ const AppContainer = styled.div`
 `;
 
 class App extends React.Component {
+  componentDidMount() {
+    for (let i = 0; i < N * N; i++) {
+      EMPTY_BOARD[i] = "";
+      ENABLED_FIELD_LIST[i] = false;
+      DISABLED_FIELD_LIST[i] = true;
+    }
+  }
+
   state = {
     message: "PlayerX on turn...",
     board: EMPTY_BOARD,
@@ -116,6 +105,7 @@ class App extends React.Component {
 
   onFieldClick = e => {
     const id = e.target.id;
+    console.log(id);
     let isDraw = false;
     let isXWinner = false;
     let isOWinner = false;
@@ -185,7 +175,7 @@ class App extends React.Component {
                 playerXWin: this.state.playerXWin + 1
               };
             });
-          } else if (this.state.turnNumber === 9 && isOWinner === false) {
+          } else if (this.state.turnNumber === N * N && isOWinner === false) {
             isDraw = true;
           }
         }
@@ -213,7 +203,7 @@ class App extends React.Component {
                 playerOWin: this.state.playerOWin + 1
               };
             });
-          } else if (this.state.turnNumber === 9 && isXWinner === false) {
+          } else if (this.state.turnNumber === N * N && isXWinner === false) {
             isDraw = true;
           }
         }
