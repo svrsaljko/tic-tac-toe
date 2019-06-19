@@ -11,16 +11,11 @@ const TicTacToeContainer = styled.div`
 const MessageAndResetButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-
-  // border: 3px solid red;
 `;
 
 const PLayerContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  //border: 3px solid brown;
 `;
 
 const BoardAndPlayerContainer = styled.div`
@@ -28,7 +23,6 @@ const BoardAndPlayerContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  //border: 3px solid black;
 `;
 
 const Board = styled.div`
@@ -36,7 +30,6 @@ const Board = styled.div`
   border: 3px solid #21242c;
   width: 17rem;
   height: 17rem;
-
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 `;
@@ -46,23 +39,36 @@ const Statistics = styled.h3`
 `;
 
 function TicTacToe(props) {
-  // console.log(props.winnerFieldList);
   const Field = styled.button`
     border: 5px solid #21242c;
     background-color: #282c34;
     font-size: 30px;
-    cursor: pointer;
+    font-weight: bold;
+    &:hover {
+      cursor: ${!props.gameEnd ? "pointer" : "mouse"};
+    }
   `;
+
   const ResetButton = styled.button`
-    //border: 3px solid yellow;
-    width: fit-content;
+    width: auto;
+    height: auto;
     align-self: center;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: #282c34;
+    border: ${props.gameEnd ? "4px solid white " : " 4px solid #21242c"};
+    border-radius: 10px;
+    color: ${props.gameEnd ? "white" : " #21242c"};
     visibility: ${props.gameEnd ? "visible" : "visible"};
+    &:hover {
+      cursor: ${props.gameEnd ? "pointer" : "mouse"};
+      border: ${props.gameEnd ? "4px solid #75fff1" : " 4px solid #21242c"};
+      color: ${props.gameEnd ? "#75fff1" : " #21242c"};
+    }
   `;
 
   const Message = styled.h3`
     color: #75fff1;
-    //border: 3px solid green;
     text-align: center;
     visibility: ${props.gameEnd ? "visible" : "visible"};
   `;
@@ -70,6 +76,7 @@ function TicTacToe(props) {
   const PlayerX = styled.h2`
     color: ${props.turn ? " #75fff1" : "white"};
   `;
+
   const PlayerO = styled.h2`
     color: ${props.turn ? "white" : " #75fff1"};
   `;
@@ -78,13 +85,15 @@ function TicTacToe(props) {
     <TicTacToeContainer>
       <MessageAndResetButtonContainer>
         <Message>{props.message}</Message>
-        <ResetButton onClick={props.onRestartClick}>RESET</ResetButton>
+        <ResetButton disabled={!props.gameEnd} onClick={props.onRestartClick}>
+          NEXT ROUND
+        </ResetButton>
       </MessageAndResetButtonContainer>
       <BoardAndPlayerContainer>
         <PLayerContainer>
           <PlayerX>PlayerX</PlayerX>
-          <Statistics>W: {props.PlayerX}</Statistics>
-          <Statistics>D: {props.Draw}</Statistics>
+          <Statistics>W: {props.playerXWin}</Statistics>
+          <Statistics>D: {props.draw}</Statistics>
         </PLayerContainer>
         <Board>
           {Fields.map(field => {
@@ -105,8 +114,8 @@ function TicTacToe(props) {
         </Board>
         <PLayerContainer>
           <PlayerO>PlayerO</PlayerO>
-          <Statistics>W: {props.PlayerO}</Statistics>
-          <Statistics>D: {props.Draw}</Statistics>
+          <Statistics>W: {props.playerOWin}</Statistics>
+          <Statistics>D: {props.draw}</Statistics>
         </PLayerContainer>
       </BoardAndPlayerContainer>
     </TicTacToeContainer>

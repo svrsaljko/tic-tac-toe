@@ -1,34 +1,12 @@
 import React from "react";
 import Header from "./components/Header";
 import TicTacToe from "./components/TicTacToe";
+import Footer from "./components/Footer";
 import styled from "styled-components";
-
-const AppContainer = styled.div`
-  styled.display: flex;
-  flex-direction: column;
-`;
 
 const N = 3;
 const winnerFieldPainter = [];
-
-const EMPTY_BOARD = [
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "O",
-  "X",
-  "11",
-  "O",
-  "13",
-  "14",
-  "X"
-];
+const EMPTY_BOARD = ["", "", "", "", "", "", "", "", ""];
 const ENABLED_FIELD_LIST = [
   false,
   false,
@@ -40,7 +18,6 @@ const ENABLED_FIELD_LIST = [
   false,
   false
 ];
-
 const DISABLED_FIELD_LIST = [
   true,
   true,
@@ -53,6 +30,11 @@ const DISABLED_FIELD_LIST = [
   true
 ];
 
+const AppContainer = styled.div`
+  styled.display: flex;
+  flex-direction: column;
+`;
+
 class App extends React.Component {
   state = {
     message: "PlayerX on turn...",
@@ -61,16 +43,14 @@ class App extends React.Component {
     turnPrevious: true,
     disableFields: ENABLED_FIELD_LIST,
     turnNumber: 0,
-    PlayerX: 0,
-    PlayerO: 0,
-    Draw: 0,
+    playerXWin: 0,
+    playerOWin: 0,
+    draw: 0,
     gameEnd: false,
     winnerFieldList: ENABLED_FIELD_LIST
   };
 
-  isGameEnd = fieldChar => {
-    //console.log("N =", N);
-
+  isRoundOver = fieldChar => {
     let fieldChecker;
 
     //CHECK ROWS
@@ -78,7 +58,6 @@ class App extends React.Component {
       fieldChecker = 0;
       for (let j = i * N; j < N * (i + 1); j++) {
         if (this.state.board[j] === fieldChar) {
-          //console.log("i: ", i, "j: ", j);
           fieldChecker++;
           winnerFieldPainter[fieldChecker - 1] = j;
         }
@@ -87,7 +66,6 @@ class App extends React.Component {
         return this.returnWinner(fieldChar);
       }
     }
-
     //CHECK COLUMNS
     for (let i = N - N; i < N; i++) {
       fieldChecker = 0;
@@ -98,8 +76,6 @@ class App extends React.Component {
         }
       }
       if (fieldChecker === N) {
-        // console.log("tuu");
-        // console.log("paint winner", winnerFieldPainter);
         return this.returnWinner(fieldChar);
       }
     }
@@ -114,8 +90,6 @@ class App extends React.Component {
       }
     }
     if (fieldChecker === N) {
-      // console.log("tuu");
-      // console.log("paint winner", winnerFieldPainter);
       return this.returnWinner(fieldChar);
     }
     //CHECK 2. DIAGONAL
@@ -127,8 +101,6 @@ class App extends React.Component {
       }
     }
     if (fieldChecker === N) {
-      // console.log("tuu");
-      // console.log("paint winner", winnerFieldPainter);
       return this.returnWinner(fieldChar);
     }
   };
@@ -143,16 +115,14 @@ class App extends React.Component {
   };
 
   onFieldClick = e => {
-    //FOR DRAW CHECK
+    const id = e.target.id;
     let isDraw = false;
     let isXWinner = false;
     let isOWinner = false;
     let message = "";
-    winnerFieldPainter[0] = false;
-
-    const id = e.target.id;
     let counter = 0;
     let turn;
+
     this.setState(
       state => {
         const board = state.board.map(field => {
@@ -171,6 +141,7 @@ class App extends React.Component {
           counter++;
           return field;
         });
+
         counter = 0;
         const disableFields = state.disableFields.map(field => {
           if (id == counter) {
@@ -180,7 +151,7 @@ class App extends React.Component {
           return field;
         });
         return {
-          message: message,
+          message,
           disableFields,
           board,
           turn,
@@ -191,9 +162,9 @@ class App extends React.Component {
 
       () => {
         if (this.state.turnPrevious === false) {
-          if (this.isGameEnd("X") === 0) {
+          if (this.isRoundOver("X") === 0) {
             isXWinner = true;
-            //console.log("PLAYER X WIN!!");
+
             this.setState(state => {
               let fieldIndex = 0;
               const winnerFieldList = state.winnerFieldList.map(field => {
@@ -211,17 +182,17 @@ class App extends React.Component {
                 gameEnd: true,
                 turn: true,
                 disableFields: DISABLED_FIELD_LIST,
-                PlayerX: this.state.PlayerX + 1
+                playerXWin: this.state.playerXWin + 1
               };
             });
           } else if (this.state.turnNumber === 9 && isOWinner === false) {
             isDraw = true;
           }
         }
+
         if (this.state.turnPrevious === true) {
-          if (this.isGameEnd("O") === 1) {
+          if (this.isRoundOver("O") === 1) {
             isOWinner = true;
-            //console.log("PLAYER O WINNER !!");
             this.setState(state => {
               let fieldIndex = 0;
               const winnerFieldList = state.winnerFieldList.map(field => {
@@ -239,20 +210,20 @@ class App extends React.Component {
                 gameEnd: true,
                 turn: false,
                 disableFields: DISABLED_FIELD_LIST,
-                PlayerO: this.state.PlayerO + 1
+                playerOWin: this.state.playerOWin + 1
               };
             });
           } else if (this.state.turnNumber === 9 && isXWinner === false) {
             isDraw = true;
           }
         }
+
         if (isDraw === true) {
-          console.log("DRAW !!");
           this.setState({
             message: "DRAW!!",
             gameEnd: true,
             disableFields: DISABLED_FIELD_LIST,
-            Draw: this.state.Draw + 1
+            draw: this.state.draw + 1
           });
         }
       }
@@ -277,24 +248,23 @@ class App extends React.Component {
   };
 
   render() {
-    //console.log("winner painter: ", winnerFieldPainter);
-    //console.log("WINNER FIELD LIST :", this.state.winnerFieldList);
     return (
       <AppContainer>
         <Header />
         <TicTacToe
           message={this.state.message}
-          PlayerX={this.state.PlayerX}
-          PlayerO={this.state.PlayerO}
-          Draw={this.state.Draw}
-          onRestartClick={this.onRestartClick}
+          playerXWin={this.state.playerXWin}
+          playerOWin={this.state.playerOWin}
+          draw={this.state.draw}
           disableFields={this.state.disableFields}
-          onFieldClick={this.onFieldClick}
           board={this.state.board}
           gameEnd={this.state.gameEnd}
           winnerFieldList={this.state.winnerFieldList}
           turn={this.state.turn}
+          onRestartClick={this.onRestartClick}
+          onFieldClick={this.onFieldClick}
         />
+        <Footer />
       </AppContainer>
     );
   }
