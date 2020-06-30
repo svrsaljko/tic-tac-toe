@@ -14,13 +14,13 @@
 
 <img src="./readmeImgs/TicTacToe3.PNG" width="900" height="400" >
 
-### This time O wins on bigger board !
+### This time O wins on the bigger board!
 
-### Bigger board same rules !
+### Bigger board but same rules!
 
 <img src="./readmeImgs/TicTacToe4.PNG" width="900" height="400" >
 
-### Draw can also be end result :)
+### Draw can also be the end result :)
 
 <img src="./readmeImgs/TicTacToe5.PNG" width="900" height="400" >
 
