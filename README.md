@@ -2,11 +2,11 @@
 
 ## Let's play!
 
-### X has it's turn ...
+### X has its turn ...
 
 <img src="./readmeImgs/TicTacToe1.PNG" width="900" height="400" >
 
-### O has it's turn ...
+### O has its turn ...
 
 <img src="./readmeImgs/TicTacToe2.PNG" width="900" height="400" >
 
