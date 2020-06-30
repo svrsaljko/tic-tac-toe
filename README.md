@@ -8,7 +8,7 @@
 
 ### O has it's turn ...
 
-<img src="./readmeImgs/TicTacToe2.PNG"width="900" height="400" >
+<img src="./readmeImgs/TicTacToe2.PNG" width="900" height="400" >
 
 ### But X wins ...
 
