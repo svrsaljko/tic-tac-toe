@@ -4,24 +4,24 @@
 
 ### X has its turn ...
 
-<img src="./readmeImgs/TicTacToe1.PNG" width="900" height="400" >
+<img src="./readmeImgs/TicTacToe1.PNG" >
 
 ### O has its turn ...
 
-<img src="./readmeImgs/TicTacToe2.PNG" width="900" height="400" >
+<img src="./readmeImgs/TicTacToe2.PNG" >
 
 ### But X wins ...
 
-<img src="./readmeImgs/TicTacToe3.PNG" width="900" height="400" >
+<img src="./readmeImgs/TicTacToe3.PNG"  >
 
 ### This time O wins on the bigger board!
 
 ### Bigger board but same rules!
 
-<img src="./readmeImgs/TicTacToe4.PNG" width="900" height="400" >
+<img src="./readmeImgs/TicTacToe4.PNG"  >
 
 ### Draw can also be the end result :)
 
-<img src="./readmeImgs/TicTacToe5.PNG" width="900" height="400" >
+<img src="./readmeImgs/TicTacToe5.PNG" >
 
 ### git clone & npm install & npm run & ENJOY ;)
