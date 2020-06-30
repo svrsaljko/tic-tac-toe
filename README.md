@@ -24,4 +24,4 @@
 
 <img src="./readmeImgs/TicTacToe5.PNG" width="900" height="400" >
 
-### git clone & npm install & npm run ENJOY ;)
+### git clone & npm install & npm run & ENJOY ;)
