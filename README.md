@@ -4,11 +4,7 @@
 
 ### X has its turn ...
 
-<img src="./readmeImgs/TicTacToe1.PNG" >
-
 ### O has its turn ...
-
-<img src="./readmeImgs/TicTacToe2.PNG" >
 
 ### But X wins ...
 
