@@ -17,6 +17,7 @@
 ### Bigger board but same rules!
 
 <img src="./readmeImgs/TicTacToe5.PNG" >
+
 ### Draw can also be the end result :)
 
 ### git clone & npm install & npm run & ENJOY ;)
