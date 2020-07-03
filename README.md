@@ -12,7 +12,7 @@
 
 ### But X wins ...
 
-[!TicTacToeGif](./readmeImgs/tictactoegif.gif)
+![TicTacToeGif](./readmeImgs/tictactoegif.gif)
 
 <img src="./readmeImgs/TicTacToe3.PNG"  >
 
