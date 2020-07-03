@@ -12,6 +12,8 @@
 
 ### But X wins ...
 
+[!TicTacToeGif](./readmeImgs/tictactoegif.gif)
+
 <img src="./readmeImgs/TicTacToe3.PNG"  >
 
 ### This time O wins on the bigger board!

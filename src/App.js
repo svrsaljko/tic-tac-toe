@@ -4,7 +4,7 @@ import TicTacToe from './components/TicTacToe';
 import Footer from './components/Footer';
 import styled from 'styled-components';
 
-export const N = 4;
+export const N = 3;
 const winnerFieldPainter = [];
 
 const EMPTY_BOARD = [];
